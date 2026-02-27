@@ -1,3 +1,4 @@
+const blackListTokenModel = require('../models/blackListToken.model');
 const userModel = require('../models/user.model');
 const jwt = require("jsonwebtoken");
 
@@ -74,4 +75,29 @@ const jwt = require("jsonwebtoken");
     }
  }
 
- module.exports = {registerController,loginController}
+ async function logoutController(req,res){
+    try{
+
+        const token = req.cookies.token;
+        if(!token) return res.status(401).json({message:"token needed"});
+        const decoded = jwt.verify(token,process.env.JWT_SECRET);
+
+        const expiresAt = new Date(decoded.exp * 1000);
+
+        await blackListTokenModel.create({
+            token:token,
+            expiresAt:expiresAt
+        });
+
+        res.clearCookie("token");
+        res.status(200).json({message:"User logged Out"});
+
+    }catch(err){
+        console.log(err);
+        return res.status(401).json({message:"Error while loggedOut"});
+    }
+    
+    
+ }
+
+ module.exports = {registerController,loginController,logoutController}
