@@ -1,6 +1,14 @@
 const blackListTokenModel = require('../models/blackListToken.model');
 const userModel = require('../models/user.model');
 const jwt = require("jsonwebtoken");
+const {sendRegistrationEmail,sendOTP} = require('../services/email.service'); 
+const crypto = require('crypto');
+const bcrypt = require('bcrypt')
+const redisClient = require('../config/redis.config');
+
+function generateOTP(){
+    return crypto.randomInt(100000,999999).toString();
+} 
 
 
  const registerController = async (req, res) => {
@@ -13,11 +21,53 @@ const jwt = require("jsonwebtoken");
         });
         if (isAlreadyExists) return res.status(401).json({ message: isAlreadyExists.email == email ? "Email already exists" : "Username already exists" })
 
-        const user = await userModel.create({
-            username,
-            email,
-            password
+        const otp = generateOTP();
+        const hashedOTP = await bcrypt.hash(otp,10);
+
+        await redisClient.set(
+            `otp:${email}`,
+            JSON.stringify({
+                username,
+                email,
+                password,
+                otp:hashedOTP
+            }),
+            {EX:300}
+        )
+
+        await sendOTP(email,username,otp);
+
+        res.status(200).json({message:"Otp send on your mail please verify"})
+
+
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Error in register Block" })
+    }
+
+}
+
+const otpVerificationController = async(req,res)=>{
+
+    const {email,otp} = req.body;
+
+    const data = await redisClient.get(`otp:${email}`);
+
+    if(!data) return res.status(401).json({message:"OTP expired"});
+
+    const parsedData = JSON.parse(data);
+
+    const matched = await bcrypt.compare(otp,parsedData.otp);
+
+    if(!matched) return res.status(400).json({message:"Invalid OTP"});
+
+    const user = await userModel.create({
+            username:parsedData.username,
+            email:parsedData.email,
+            password:parsedData.password
         });
+
+        await redisClient.del(`otp:${email}`);
 
         const token = jwt.sign({
             id: user._id,
@@ -27,17 +77,18 @@ const jwt = require("jsonwebtoken");
             { expiresIn: "2d" }
         );
 
+        
+        await sendRegistrationEmail(user.username,user.email);
+
         res.cookie('token', token);
+        
         res.status(201).json({
             message: "User registered",
-            user: user
+            user:{
+                username:user.username,
+                email:user.email
+            }
         })
-
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({ message: "Error in register Block" })
-    }
-
 }
 
  const loginController = async (req,res) => {
@@ -66,7 +117,10 @@ const jwt = require("jsonwebtoken");
     res.cookie('token',token);
 
     res.status(200).json({message:"User logged IN",
-        user:user
+        user:{
+            username:user.username,
+            email:user.email
+        }
     })
 
     }catch(err){
@@ -100,4 +154,4 @@ const jwt = require("jsonwebtoken");
     
  }
 
- module.exports = {registerController,loginController,logoutController}
+ module.exports = {registerController,loginController,logoutController,otpVerificationController}
