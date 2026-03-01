@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const {sendRegistrationEmail,sendOTP} = require('../services/email.service'); 
 const crypto = require('crypto');
 const bcrypt = require('bcrypt')
-const redisClient = require('../config/redis.config');
+const redis = require('../config/cache');
 
 function generateOTP(){
     return crypto.randomInt(100000,999999).toString();
@@ -24,7 +24,7 @@ function generateOTP(){
         const otp = generateOTP();
         const hashedOTP = await bcrypt.hash(otp,10);
 
-        await redisClient.set(
+        await redis.set(
             `otp:${email}`,
             JSON.stringify({
                 username,
@@ -32,7 +32,7 @@ function generateOTP(){
                 password,
                 otp:hashedOTP
             }),
-            {EX:300}
+            "EX",300
         )
 
         await sendOTP(email,username,otp);
@@ -51,7 +51,7 @@ const otpVerificationController = async(req,res)=>{
 
     const {email,otp} = req.body;
 
-    const data = await redisClient.get(`otp:${email}`);
+    const data = await redis.get(`otp:${email}`);
 
     if(!data) return res.status(401).json({message:"OTP expired"});
 
@@ -67,7 +67,7 @@ const otpVerificationController = async(req,res)=>{
             password:parsedData.password
         });
 
-        await redisClient.del(`otp:${email}`);
+        await redis.del(`otp:${email}`);
 
         const token = jwt.sign({
             id: user._id,
@@ -136,12 +136,16 @@ const otpVerificationController = async(req,res)=>{
         if(!token) return res.status(401).json({message:"token needed"});
         const decoded = jwt.verify(token,process.env.JWT_SECRET);
 
-        const expiresAt = new Date(decoded.exp * 1000);
+        if(!decoded) return res.status(400).json({message:"Inavlid token"});
 
-        await blackListTokenModel.create({
-            token:token,
-            expiresAt:expiresAt
-        });
+        // const expiresAt = new Date(decoded.exp * 1000);
+
+        // await blackListTokenModel.create({
+        //     token:token,
+        //     expiresAt:expiresAt
+        // });
+
+        await redis.set(token,Date.now().toString(),"EX",60*60);
 
         res.clearCookie("token");
         res.status(200).json({message:"User logged Out"});

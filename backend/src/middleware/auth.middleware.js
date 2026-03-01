@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/user.model');
 const blackListTokenModel = require('../models/blackListToken.model');
+const redis = require('../config/cache');
 
 async function authUser(req, res, next) {
     try {
@@ -10,7 +11,9 @@ async function authUser(req, res, next) {
             return res.status(401).json({ message: "Authentication required" });
         }
 
-        const isAlreadyBlacklisted = await blackListTokenModel.findOne({token:token}).lean();
+        // const isAlreadyBlacklisted = await blackListTokenModel.findOne({token:token}).lean();
+
+        const isAlreadyBlacklisted = await redis.get(token);
 
         if(isAlreadyBlacklisted) return res.status(403).json({message:"token already blacklisted"});
 
