@@ -1,48 +1,62 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../auth.context";
-import {login,logout,register,getMe,verify} from '../services/auth.api';
+import { login, logout, register, getMe, verify } from '../services/auth.api';
 
-export async function useAuth() {
+export function useAuth() {
     const context = useContext(AuthContext);
-    const {loading,setLoading,user,setUser} = context;
+    const { loading, setLoading, user, setUser } = context;
 
-    const handleLogin = async(email,password)=>{
+    useEffect(() => {
+        if (!user) {
+            handleGetMe();
+        }
+    }, []);
+
+    const handleLogin = async (email, password) => {
         setLoading(true);
-        const responce = await login(email,password)
+        const responce = await login(email, password)
         setUser(responce.user);
         setLoading(false);
     }
 
-    const hanldeRegister = async(username,email,password)=>{
+    const handleRegister = async (username, email, password) => {
         setLoading(true);
-        const responce = await register(username,email,password);
+        const responce = await register(username, email, password);
         setUser(responce.user);
         setLoading(false);
     }
 
-    const handleVerify = async(email,otp)=>{
+    const handleVerify = async (email, otp) => {
         setLoading(true);
-        const responce = await verify(email,otp);
+        const responce = await verify(email, otp);
         setUser(responce.user);
         setLoading(false);
     }
 
-    const handleLogout = async()=>{
-        setLoading(true);
-        const responce = await logout();
-        setUser(responce.user);
-        setLoading(false);
-    }
+    const handleLogout = async () => {
+        try {
+            await logout();
+        } finally {
+            setUser(null);
+        }
+    };
 
-    const handleGetMe = async()=>{
-        setLoading(true);
-        const responce = await getMe();
-        setUser(responce.user);
-        setLoading(false);
-    }
+    const handleGetMe = async () => {
+        try {
+            setLoading(true);
+            const response = await getMe();
+            setUser(response.user);
+        } catch (error) {
+            // 🔥 Important
+            setUser(null);
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     return {
-        loading,user,handleLogin,handleGetMe,handleLogout,hanldeRegister,handleVerify
+        loading, user, handleLogin, handleGetMe, handleLogout, handleRegister, handleVerify
     }
 
 }

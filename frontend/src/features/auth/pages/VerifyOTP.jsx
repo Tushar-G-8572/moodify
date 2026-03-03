@@ -1,0 +1,51 @@
+import React, { useState } from 'react'
+import { useLocation,useNavigate } from 'react-router';
+import { useAuth } from '../hooks/useAuth';
+import '../styles/form.scss';
+
+const VerifyOTP = () => {
+  const [otp, setOtp] = useState('');
+  const location = useLocation();
+  const email = location.state?.email;
+  console.log(email);
+  const navigate = useNavigate();
+  const {loading,handleVerify} = useAuth();
+
+  const handleSubmit = async (e)=>{
+    try{
+
+      e.preventDefault();
+      await handleVerify(email,otp);
+      navigate('/');
+      
+    }catch(err){
+      console.log(err);
+    }
+
+  }
+
+  if(loading){
+    return (
+        <main className="form-wrapper">
+                <h1>Loading...</h1>
+        </main>
+    )
+  }
+
+  return (
+    <main className='form-wrapper'>
+      <div className="form-container">
+        <h1>Verify OTP</h1>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email"></label>
+          <input type="text" value={email} readOnly id='email' />
+          <label htmlFor="otp"></label>
+          <input type="text" id='otp' placeholder="Enter OTP" onInput={(e)=>{setOtp(e.target.value)}} value={otp} />
+          <button type='submit' className='button' >Verify</button>
+        </form>
+      </div>
+    </main>
+  )
+}
+
+export default VerifyOTP

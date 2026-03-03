@@ -19,3 +19,23 @@ a {
     text-decoration: none;
     color: #df4d04;
 }
+
+.nav-container {
+    display: flex;
+    width: 100%;
+    padding-block: 1rem;
+    padding-inline: 1.5rem;
+    background-color: #222;
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        background-color: #222;
+    }
+    .mood{
+        background: #222;        
+    }
+
+}
