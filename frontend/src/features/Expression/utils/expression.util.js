@@ -56,22 +56,26 @@ export const detect = ({
     const eyeWideLeft = getScore("eyeWideLeft");
     const eyeWideRight = getScore("eyeWideRight");
 
+    let currentExpression = null;
+
     if (smileLeft > 0.5 && smileRight > 0.5) {
-      setExpression("😊 Happy");
+      currentExpression="happy";
     } else if (
       frownLeft >= 0.1 &&
       frownRight >= 0.1 &&
       browInnerUp >= 0.01
     ) {
-      setExpression("😢 Sad");
+      currentExpression="sad";
     } else if (
       jawOpen > 0.5 &&
       eyeWideLeft > 0.02 &&
       eyeWideRight > 0.02
     ) {
-      setExpression("😲 Surprised");
+      currentExpression="surprised";
     } else {
-      setExpression("😐 Neutral");
+      currentExpression="neutral";
     }
+    setExpression(currentExpression);
+    return currentExpression
   }
 };

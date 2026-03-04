@@ -1,0 +1,204 @@
+.player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #111;
+  border-top: 1px solid #2a2a2a;
+  padding: 12px 25px;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+}
+
+/* -------------------- */
+/* SONG INFO */
+/* -------------------- */
+
+.player__info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.player__poster {
+  width: 55px;
+  height: 55px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.player__meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.player__title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.player__mood {
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* -------------------- */
+/* PROGRESS BAR */
+/* -------------------- */
+
+.player__progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.player__time {
+  font-size: 11px;
+  color: #aaa;
+  width: 35px;
+  text-align: center;
+}
+
+.player__progress {
+  flex: 1;
+  height: 6px;
+  background: #333;
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+}
+
+.player__progress-fill {
+  height: 100%;
+  background: #1db954;
+  border-radius: 10px;
+}
+
+.player__progress-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: #1db954;
+  border-radius: 50%;
+}
+
+/* -------------------- */
+/* CONTROLS */
+/* -------------------- */
+
+.player__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.player__btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.2s;
+}
+
+.player__btn:hover {
+  transform: scale(1.1);
+}
+
+.player__btn--play {
+  background: #1db954;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.player__btn--skip {
+  color: #bbb;
+}
+
+/* -------------------- */
+/* SPEED MENU */
+/* -------------------- */
+
+.player__speed-wrap {
+  position: relative;
+}
+
+.player__speed-menu {
+  position: absolute;
+  bottom: 40px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.player__speed-option {
+  border: none;
+  background: none;
+  color: white;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 13px;
+}
+
+.player__speed-option:hover {
+  background: #2a2a2a;
+}
+
+.player__speed-option.active {
+  color: #1db954;
+}
+
+/* -------------------- */
+/* VOLUME */
+/* -------------------- */
+
+.player__volume {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.player__volume-slider {
+  width: 80px;
+  cursor: pointer;
+}
+
+/* -------------------- */
+/* MOBILE */
+/* -------------------- */
+
+@media (max-width: 768px) {
+  .player {
+    padding: 10px;
+  }
+
+  .player__poster {
+    width: 45px;
+    height: 45px;
+  }
+
+  .player__controls {
+    gap: 12px;
+  }
+
+  .player__volume-slider {
+    width: 60px;
+  }
+}

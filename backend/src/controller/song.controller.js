@@ -37,9 +37,9 @@ async function uploadSongController(req,res) {
 async function getSongController(req,res) {
     try{
 
-        const {mood} = req.body
+        const {mood} = req.query
         
-        const songsPlaylist = (mood === 'nuteral'? await songModel.find(): await songModel.find({mood}))
+        const songsPlaylist = (mood === 'neutral'? await songModel.find(): await songModel.find({mood}))
         
         res.status(200).json({message:"Playlist feteched",
             playlist:songsPlaylist
