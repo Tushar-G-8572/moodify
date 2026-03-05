@@ -1,6 +1,8 @@
 import React from 'react'
 import { useAuth } from '../../auth/hooks/useAuth'
 import { useNavigate } from 'react-router';
+import Loader from './Loader';
+import '../navbar.scss'
 
 const Navbar = () => {
     const {loading,handleLogout} = useAuth();
@@ -19,7 +21,7 @@ const Navbar = () => {
     if(loading){
         return (
             <main className="form-wrapper">
-                    <h1>Loading...</h1>
+                    <Loader />
             </main>
         )
     }   

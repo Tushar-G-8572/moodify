@@ -4,11 +4,17 @@ import FaceExpression from "../../Expression/components/FaceExpression";
 import { useSong } from "../hooks/useSongs";
 import Playlist from "../components/Playlist";
 import Player from "../components/Player";
+import { useAuth } from "../../auth/hooks/useAuth";
+import Loader from "../../shared/components/Loader";
 
 const Home = () => {
 
-  const { handleGetPlaylists, playlist } = useSong();
+  const { loading,handleGetPlaylists, playlist } = useSong();
   const [currentSong, setCurrentSong] = useState(null)
+
+  const { user } = useAuth();
+  
+  {loading && <Loader />}
 
   const hasSongs = playlist && playlist.length > 0;
 
@@ -18,11 +24,13 @@ const Home = () => {
 
       <div className={`main ${hasSongs ? "show-playlist" : ""}`}>
 
-        <FaceExpression
+
+      {user && <FaceExpression
           onClick={(expression) => {
             handleGetPlaylists({ mood: expression });
           }}
-        />
+        />}
+        
 
         {/* Conditional Rendering */}
         {hasSongs && <Playlist setCurrentSong={setCurrentSong} />}

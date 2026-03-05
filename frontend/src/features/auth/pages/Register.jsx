@@ -3,6 +3,7 @@ import '../styles/form.scss';
 import { Link } from 'react-router';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router';
+import Loader from '../../shared/components/Loader';
 
 const Register = () => {
     const [username,setUsername] =  useState();
@@ -24,7 +25,7 @@ const Register = () => {
     if(loading){
         return(
             <main className="form-wrapper">
-                    <h1>Loading...</h1>
+                    <Loader />
             </main>
         )
     }

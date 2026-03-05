@@ -1,12 +1,13 @@
 .playlist-container {
-  width: 450px;
-  height: 70vh;
+  width: 550px;
+  height: 60vh;
   overflow-y: auto;
   background: #111;
   border-radius: 10px;
-  padding: 20px;
+  padding: 10px;
   color: white;
   animation: slideIn 0.4s ease;
+ 
 }
 @keyframes slideIn {
   from {
@@ -47,10 +48,12 @@
   padding: 8px 10px;
   border-bottom: 1px solid #222;
   transition: background 0.2s;
+
 }
 
 .playlist-row:hover {
-  background: #1e1e1e;
+  background-color: #1e1e1e;
+  cursor: pointer;
 }
 
 .song-poster {
@@ -63,18 +66,20 @@
 .song-title {
   font-size: 14px;
 }
+.song-title:hover{
+  background-color: #1e1e1e;
+}
 
 .song-mood {
   text-transform: capitalize;
 }
 
 .play-btn {
-  background: #1db954;
+  background: #ff4d4d;
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
-  cursor: pointer;
-  color: white;
+    color: white;
 }
 
 .play-btn:hover {

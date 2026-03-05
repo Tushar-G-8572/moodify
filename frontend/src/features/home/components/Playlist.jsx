@@ -1,12 +1,20 @@
 import { useSong } from "../hooks/useSongs";
 import "../styles/playlist.scss";
-import Player from "./Player";
+import Loader from "../../shared/components/Loader";
 
 function Playlist({ setCurrentSong }) {
 
-  const { playlist } = useSong();
+  const { loading,playlist } = useSong();
 
   console.log(playlist);
+
+  if(loading){
+    return(
+        <main className="form-wrapper">
+                <Loader />
+        </main>
+    )
+  }
 
   return (
     <div className="playlist-container">
@@ -50,13 +58,6 @@ function Playlist({ setCurrentSong }) {
           ))}
 
       </div>
-
-      {/* Audio Player */}
-      {/* {currentSong && (
-        <div className="audio-player">
-          <audio controls autoPlay src={currentSong} />
-        </div>
-      )} */}
 
     </div>
   );

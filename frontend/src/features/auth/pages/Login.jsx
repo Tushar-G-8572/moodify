@@ -3,6 +3,7 @@ import { useState } from 'react'
 import {Link, useNavigate} from 'react-router'
 import '../styles/form.scss';
 import { useAuth } from '../hooks/useAuth';
+import Loader from '../../shared/components/Loader';
 
 const Login = () => {
   const [email,setEmail] =  useState();
@@ -19,7 +20,7 @@ const Login = () => {
   if(loading){
     return (
         <main className="form-wrapper">
-                <h1>Loading...</h1>
+                <Loader />
         </main>
     )
   }

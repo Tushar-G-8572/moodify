@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useLocation,useNavigate } from 'react-router';
 import { useAuth } from '../hooks/useAuth';
 import '../styles/form.scss';
+import Loader from '../../shared/components/Loader';
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState('');
@@ -27,7 +28,7 @@ const VerifyOTP = () => {
   if(loading){
     return (
         <main className="form-wrapper">
-                <h1>Loading...</h1>
+                <Loader />
         </main>
     )
   }
