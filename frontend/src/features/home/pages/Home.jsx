@@ -12,7 +12,7 @@ const Home = () => {
   const { loading,handleGetPlaylists, playlist } = useSong();
   const [currentSong, setCurrentSong] = useState(null)
 
-  const { user } = useAuth();
+  const { user,notify } = useAuth();
   
   {loading && <Loader />}
 
@@ -23,7 +23,6 @@ const Home = () => {
       <Navbar />
 
       <div className={`main ${hasSongs ? "show-playlist" : ""}`}>
-
 
       {user && <FaceExpression
           onClick={(expression) => {

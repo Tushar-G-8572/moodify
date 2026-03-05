@@ -10,17 +10,20 @@ const VerifyOTP = () => {
   const email = location.state?.email;
   console.log(email);
   const navigate = useNavigate();
-  const {loading,handleVerify} = useAuth();
+  const {loading,handleVerify,notify} = useAuth();
 
   const handleSubmit = async (e)=>{
     try{
 
       e.preventDefault();
       await handleVerify(email,otp);
+      notify("Registration successful welcome to mooodify");
       navigate('/');
       
     }catch(err){
       console.log(err);
+      notify("Invalid OTP, please retry again",'error');
+      navigate('/register');
     }
 
   }

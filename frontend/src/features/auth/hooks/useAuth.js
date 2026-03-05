@@ -4,7 +4,7 @@ import { login, logout, register, getMe, verify } from '../services/auth.api';
 
 export function useAuth() {
     const context = useContext(AuthContext);
-    const { loading, setLoading, user, setUser } = context;
+    const { loading, setLoading, user, setUser, notify } = context;
 
     useEffect(() => {
         if (!user) {
@@ -14,24 +14,51 @@ export function useAuth() {
 
     const handleLogin = async (email, password) => {
         setLoading(true);
-        const responce = await login(email, password)
-        setUser(responce.user);
-        setLoading(false);
-    }
+
+        try {
+            const response = await login(email, password);
+            setUser(response.user)
+            return response;
+        } catch (err) {
+            console.error("Login failed:", err);
+            setUser(null);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleRegister = async (username, email, password) => {
         setLoading(true);
-        const responce = await register(username, email, password);
-        setUser(responce.user);
-        setLoading(false);
-    }
+
+        try {
+            const response = await register(username, email, password);
+            setUser(response.user);
+            return response;
+        } catch (err) {
+            console.error("Registration failed:", err);
+            setUser(null);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleVerify = async (email, otp) => {
         setLoading(true);
-        const responce = await verify(email, otp);
-        setUser(responce.user);
-        setLoading(false);
-    }
+
+        try {
+            const response = await verify(email, otp);
+            setUser(response.user);
+            return response;
+        } catch (err) {
+            console.error("OTP verification failed:", err);
+            setUser(null);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleLogout = async () => {
         try {
@@ -56,7 +83,7 @@ export function useAuth() {
 
 
     return {
-        loading, user, handleLogin, handleGetMe, handleLogout, handleRegister, handleVerify
+        loading, user, handleLogin, handleGetMe, handleLogout, notify, handleRegister, handleVerify
     }
 
 }

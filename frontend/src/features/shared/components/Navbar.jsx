@@ -5,12 +5,13 @@ import Loader from './Loader';
 import '../navbar.scss'
 
 const Navbar = () => {
-    const {loading,handleLogout} = useAuth();
+    const {loading,handleLogout,notify} = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async()=>{
         try{
             await handleLogout();
+            notify("Logout successful");
             navigate('/login');
         }catch(err){
             console.log(err);
