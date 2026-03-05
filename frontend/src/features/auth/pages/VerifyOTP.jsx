@@ -22,8 +22,8 @@ const VerifyOTP = () => {
       
     }catch(err){
       console.log(err);
-      notify("Invalid OTP, please retry again",'error');
-      navigate('/register');
+      notify("Invalid OTP, please retry",'error');
+      
     }
 
   }
