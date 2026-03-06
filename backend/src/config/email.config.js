@@ -15,6 +15,9 @@ const nodemailer = require('nodemailer');
 //     connectionTimeout:20000
 // })
 
+const dns = require("dns");
+dns.setDefaultResultOrder("ipv4first");
+
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
