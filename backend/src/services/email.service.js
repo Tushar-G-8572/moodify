@@ -4,7 +4,7 @@ const otpTemplate = require('./templates/otp.template');
 
 const sendEmail = async function({ to, subject, text, html }) {
   try {
-    // console.log("Sending to:", to);
+    console.log("Sending to:", to);
 
     const info = await transporter.sendMail({
       from: `Moodify music player <${process.env.EMAIL_USER}>`,
@@ -14,10 +14,10 @@ const sendEmail = async function({ to, subject, text, html }) {
       html
     });
 
-    // console.log("Message Sent:", info.messageId);
+    console.log("Message Sent:", info.messageId);
 
   } catch (err) {
-    // console.log("Error sending email", err);
+    console.log("Error sending email", err);
     throw err;
   }
 };

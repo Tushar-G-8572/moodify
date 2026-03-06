@@ -12,7 +12,7 @@ const nodemailer = require('nodemailer');
 //         clientSecret: process.env.CLIENT_SECRET,
 //         refreshToken: process.env.REFRESH_TOKEN
 //     },
-//     connectionTimeout:20000
+//     connectionTimeout:60000
 // })
 
 const dns = require("dns");
