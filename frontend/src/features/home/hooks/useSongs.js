@@ -7,7 +7,7 @@ export  function useSong() {
     const {loading,setLoading,playlist,setPlaylist} = context;
 
     async function handleGetPlaylists({mood}) {
-        console.log("handleGetPlaylist",mood);
+        // console.log("handleGetPlaylist",mood);
         setLoading(true);
         const responce = await getPlaylist({mood});
         setPlaylist(responce.playlist);

@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router';
 import Loader from '../../shared/components/Loader';
+import FormGroup from '../components/FormGroup';
 
 const Register = () => {
     const [username, setUsername] = useState();
@@ -44,21 +45,16 @@ const Register = () => {
     return (
         <main className="form-wrapper">
             <div className="form-container">
-                <h1>Registration</h1>
+                <h1>Moodify Registration</h1>
+
                 <form onSubmit={handleSubmit} >
-                    <label htmlFor="username"></label>
-                    <input onInput={(e) => {
-                        setUsername(e.target.value)
-                    }}
-                        type="text" placeholder='username' id='username' />
-                    <label htmlFor="email"></label>
-                    <input onInput={(e) => {
-                        setEmail(e.target.value)
-                    }}
-                        type="text" placeholder='email' id='email' />
-                    <label htmlFor="password"></label>
-                    <input onInput={(e) => { setPassword(e.target.value) }}
-                        type="text" id='password' placeholder='Password' />
+
+                    <FormGroup label="Username" placeholder="Enter username" value={username} onChange={(e) => setUsername(e.target.value)} />
+
+                    <FormGroup label="Email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+
+                    <FormGroup label="Password" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} />
+
                     <button className='button' type='submit'>Register</button>
                 </form>
 

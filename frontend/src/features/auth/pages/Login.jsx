@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router'
 import '../styles/form.scss';
 import { useAuth } from '../hooks/useAuth';
 import Loader from '../../shared/components/Loader';
+import FormGroup from '../components/FormGroup';
 
 const Login = () => {
   const [email, setEmail] = useState();
@@ -39,17 +40,16 @@ const Login = () => {
   return (
     <main className="form-wrapper">
       <div className="form-container">
-        <h1>Login</h1>
+        <h1>Moodify Login</h1>
+
         <form onSubmit={handleSubmit} >
-          <label htmlFor="email"></label>
-          <input onInput={(e) => {
-            setEmail(e.target.value)
-          }}
-            type="text" placeholder='email' id='email' />
-          <label htmlFor="password"></label>
-          <input onInput={(e) => { setPassword(e.target.value) }}
-            type="text" id='password' placeholder='Password' />
+          
+          <FormGroup label="Email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />   
+         
+          <FormGroup label="Password" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} />
+
           <button className='button' type='submit'>Login</button>
+          
         </form>
         <p>Don't have an account? <Link to='/register'>Register</Link></p>
       </div>

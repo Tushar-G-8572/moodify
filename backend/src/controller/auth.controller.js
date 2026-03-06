@@ -41,8 +41,8 @@ function generateOTP(){
 
 
     } catch (err) {
-        console.log(err);
-        return res.status(500).json({ message: "Error in register Block" })
+        
+        return res.status(500).json({ message: "Error in register Block",error:err })
     }
 
 }
@@ -124,8 +124,8 @@ const otpVerificationController = async(req,res)=>{
     })
 
     }catch(err){
-        console.log(err);
-        res.status(500).json({message:"Error while looged in"});
+        
+        res.status(500).json({message:"Error while looged in",error:err});
     }
  }
 
@@ -151,8 +151,8 @@ const otpVerificationController = async(req,res)=>{
         res.status(200).json({message:"User logged Out"});
 
     }catch(err){
-        console.log(err);
-        return res.status(401).json({message:"Error while loggedOut"});
+        
+        return res.status(401).json({message:"Error while loggedOut",error:err});
     }
     
     

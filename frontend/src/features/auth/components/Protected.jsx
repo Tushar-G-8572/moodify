@@ -4,7 +4,7 @@ import { Navigate } from 'react-router';
 
 const Protected = ({ children }) => {
     const { loading, user } = useAuth();
-    console.log(user);
+    // console.log(user);
     if(!loading && !user){
         return <Navigate to='/login' />
     }

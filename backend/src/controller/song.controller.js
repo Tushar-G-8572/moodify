@@ -45,8 +45,8 @@ async function getSongController(req,res) {
             playlist:songsPlaylist
         })
     }catch(err){
-        console.log(err);
-        return res.status(500).json({message:"Error while getting playlist"})
+        
+        return res.status(500).json({message:"Error while getting playlist",error:err})
     }
 
 }

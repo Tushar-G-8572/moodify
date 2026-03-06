@@ -6,7 +6,7 @@ const api = axios.create({
 })
 
 export async function getPlaylist({mood}) {
-    console.log(mood);
+    // console.log(mood);
     const responce = await api.get("/song",
          { params: { mood } }
      )

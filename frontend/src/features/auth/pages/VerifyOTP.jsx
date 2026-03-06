@@ -3,6 +3,7 @@ import { useLocation,useNavigate } from 'react-router';
 import { useAuth } from '../hooks/useAuth';
 import '../styles/form.scss';
 import Loader from '../../shared/components/Loader';
+import FormGroup from '../components/FormGroup';
 
 const VerifyOTP = () => {
   const [otp, setOtp] = useState('');
@@ -41,11 +42,14 @@ const VerifyOTP = () => {
       <div className="form-container">
         <h1>Verify OTP</h1>
         <form onSubmit={handleSubmit}>
+
           <label htmlFor="email"></label>
           <input type="text" value={email} readOnly id='email' />
-          <label htmlFor="otp"></label>
-          <input type="text" id='otp' placeholder="Enter OTP" onInput={(e)=>{setOtp(e.target.value)}} value={otp} />
+ 
+          <FormGroup label="OTP" placeholder="Enter OTP" value={otp} onChange={(e) => setOtp(e.target.value)} />
+
           <button type='submit' className='button' >Verify</button>
+          
         </form>
       </div>
     </main>
