@@ -13,6 +13,7 @@ app.use(cors({
     credentials:true,
     
 }))
+
 const authRouter = require('./routes/auth.routes');
 const userRouter = require("./routes/user.routes");
 const songRouter = require('./routes/song.routes');

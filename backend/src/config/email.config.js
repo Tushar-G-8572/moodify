@@ -18,27 +18,28 @@ const nodemailer = require('nodemailer');
 // const dns = require("dns");
 // dns.setDefaultResultOrder("ipv4first");
 
-// const transporter = nodemailer.createTransport({
-//   host: "smtp.gmail.com",
-//   port: 587,
-//   secure: false,
-//   family:4,
-//   auth: {
-//     user: process.env.EMAIL_USER,
-//     pass: process.env.EMAIL_PASS
-//   },
-//   connectionTimeout: 60000,
-//   greetingTimeout: 60000,
-//   socketTimeout: 60000,
-// });
-
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service:'gmail',
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  tls:{
+    ciphers:"SSLv3"
+  },
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
-  }
+  },
 });
+
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS
+//   }
+// });
+
 
 transporter.verify((error, success) => {
   if (error) {
